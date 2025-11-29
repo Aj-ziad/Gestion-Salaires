@@ -6,7 +6,7 @@ class Personne {
     #rue 
     #ville 
     #nbPersonnes
-construtor(nom,prenom,anneNaissance,rue,ville){
+constructor(nom,prenom,anneNaissance,rue,ville){
 
     this.#nom = nom
       this.#prenom = prenom
@@ -15,7 +15,7 @@ construtor(nom,prenom,anneNaissance,rue,ville){
         this.#ville= ville
 }
 calculAge(){
-    return age=new Date()-this.#anneNaissance
+    return 2025 - this.#anneNaissance;
 
 }
 
@@ -24,7 +24,7 @@ calculAge(){
 
  }
  toString(){
-    return ` nom:${this.#nom} prenom ${this.#prenom}:`
+    return `${this.#nom} ${this.#prenom}`;
  }
 
 }
@@ -33,10 +33,10 @@ class Agent extends Personne{
     #tauxHoraraire
 
 
-    constructor(heuresTravaillees,tauxHoraire,nom,prenom,anneNaissance,rue,ville){
-    super(_nom,_prenom,_anneNaissance,_rue,_ville)
+    constructor(nom, prenom, anneNaissance, rue, ville, heuresTravaillees, tauxHoraraire) {
+    super(nom,prenom,anneNaissance,rue,ville)
     this.#heuresTravaillees=heuresTravaillees
-    this.#tauxHoraraire=tauxHoraire
+    this.#tauxHoraraire=tauxHoraraire
     
 
     }
@@ -51,8 +51,8 @@ class Commercial extends Personne{
     #salaireFixe
     #chiffreAfaire
     #commission
-    constructor(salaireFixe,chiffreAfaire,commission,nom,prenom,anneNaissance,rue,ville){
-         super(_nom,_prenom,_anneNaissance,_rue,_ville)
+    constructor(nom, prenom, anneNaissance, rue, ville, salaireFixe, chiffreAfaire, commission) {
+         super(nom,prenom,anneNaissance,rue,ville)
          this.#chiffreAfaire=chiffreAfaire
          this.#commission=commission
          this.#salaireFixe=salaireFixe
@@ -64,11 +64,11 @@ class Commercial extends Personne{
     }
 
 }
-class Carde extends Personne{
+class Cadre extends Personne{
     #salaireFixe
     #bonus
-    constructor(salaireFixe,bonus,nom,prenom,anneNaissance,rue,ville){
-        super(_nom,_prenom,_anneNaissance,_rue,_ville)
+    constructor(nom, prenom, anneNaissance, rue, ville, salaireFixe, bonus) {
+        super(nom,prenom,anneNaissance,rue,ville)
         this.#bonus=bonus
         this.#salaireFixe=salaireFixe
     }
@@ -83,25 +83,77 @@ const typeEmployer = document.getElementById("selecteurR")
 const  infos = document.getElementById("infos")
 typeEmployer.addEventListener("change", ()=>{
     const type = typeEmployer.value
-    tabData.innerHTML=""
+    // tabData.innerHTML=""
 
     if (type ==="agent"){
         infos.innerHTML = `
         <input type="number" id="heures" placeholder="Heures travaillées" required>
-        <input type="number" id="taux" placeholder="Taux horaire">`
+        <input type="number" id="taux" placeholder="Taux horaire" required>`
          }else if (type === "commercial") {
          infos.innerHTML = `
-            <input type="number" id="fixe" placeholder="Salaire fixe">
-            <input type="number" id="ca" placeholder="Chiffre d'affaire" style.>
-            <input type="number" id="commission" step="0.01" placeholder="Commission">
+            <input type="number" id="fixe" placeholder="Salaire fixe" required>
+            <input type="number" id="ca" placeholder="Chiffre d'affaire" required>
+            <input type="number" id="commission" step="0.01" placeholder="Commission" required>
         `
     } else if (type === "cadre") {
         infos.innerHTML = `
-            <input type="number" id="fixe" placeholder="Salaire fixe">
-            <input type="number" id="bonus" placeholder="Bonus">
+            <input type="number" id="fixe" placeholder="Salaire fixe" required>
+            <input type="number" id="bonus" placeholder="Bonus" required>
         `
     } else {
         infos.innerHTML=``
     }
     
+})
+
+const btn = document.getElementById("submit")
+btn.addEventListener("click",(e)=>{
+    e.preventDefault();
+    const nom = document.getElementById("fname").value
+    const prenom = document.getElementById("fprenom").value
+    const annee = parseInt(document.getElementById("fyear").value)
+    const age = 2025 - annee
+    const rue = document.getElementById("frue").value
+    const ville = document.getElementById("fville").value
+    const type = typeEmployer.value
+    // const fullName = name + " " + first
+    const adresse = rue + " " + ville
+ let personne; 
+
+    if (type === "agent") {
+        const heures = parseFloat(document.getElementById("heures").value);
+        const taux = parseFloat(document.getElementById("taux").value);
+
+        personne = new Agent(nom, prenom, annee, rue, ville, heures, taux);
+
+    } else if (type === "commercial") {
+        const fixe = parseFloat(document.getElementById("fixe").value);
+        const ca = parseFloat(document.getElementById("ca").value);
+        const commission = parseFloat(document.getElementById("commission").value);
+
+        personne = new Commercial(nom, prenom, annee, rue, ville, fixe, ca, commission);
+
+    } else if (type === "cadre") {
+        const fixe = parseFloat(document.getElementById("fixe").value);
+        const bonus = parseFloat(document.getElementById("bonus").value);
+
+        personne = new Cadre(nom, prenom, annee, rue, ville, fixe, bonus);
+    }
+
+   
+ 
+    console.log("Full Name:", personne.toString());
+    console.log("Age:", personne.calculAge());
+    console.log("Salaire:", personne.calculerSalaire());
+
+
+    const ttab = document.getElementById("tabData")
+    ttab.innerHTML+=`
+    <tr>
+    <td>${type}</td>
+    <td>${personne.toString()}</td>
+    <td>${personne.calculAge()}</td>
+    <td>${adresse}</td>
+    <td>${personne.calculerSalaire()}</td>
+    </tr>`
 })

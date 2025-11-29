@@ -5,18 +5,22 @@ body{
     
 }
 
-form{
-      
-     padding: 10px;
-     border: 1px solid white;
-     width:100%;
-     background: rgb(236, 230, 218);
-     display: grid;          
-     grid-template-columns: auto auto; 
-     gap: 15px; 
-
+form {
+    background: rgb(236, 230, 218);
+    padding: 30px;
+    width: 90%;
+    max-width: 900px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
 }
-
+#infos {
+    grid-column: span 2;     
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
 input,select{
   
     padding:10px;
@@ -39,17 +43,20 @@ table{
     
 
 }
+#tabData{
+    background-color: aliceblue;
+}
 tr{
     text-align: center;
-    color: white;
-     background: black; 
+   
     padding: 10px;
     
 }
 thead th {
-    /* background: black; */
+     background: black; 
     color: white;
     font-weight: bold;
     font-size: 16px;
 }
+
 
