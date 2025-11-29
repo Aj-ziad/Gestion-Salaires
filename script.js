@@ -77,3 +77,31 @@ class Carde extends Personne{
         return salaire
     }
 }
+
+// --------------
+const typeEmployer = document.getElementById("selecteurR")
+const  infos = document.getElementById("infos")
+typeEmployer.addEventListener("change", ()=>{
+    const type = typeEmployer.value
+    tabData.innerHTML=""
+
+    if (type ==="agent"){
+        infos.innerHTML = `
+        <input type="number" id="heures" placeholder="Heures travaillées" required>
+        <input type="number" id="taux" placeholder="Taux horaire">`
+         }else if (type === "commercial") {
+         infos.innerHTML = `
+            <input type="number" id="fixe" placeholder="Salaire fixe">
+            <input type="number" id="ca" placeholder="Chiffre d'affaire" style.>
+            <input type="number" id="commission" step="0.01" placeholder="Commission">
+        `
+    } else if (type === "cadre") {
+        infos.innerHTML = `
+            <input type="number" id="fixe" placeholder="Salaire fixe">
+            <input type="number" id="bonus" placeholder="Bonus">
+        `
+    } else {
+        infos.innerHTML=``
+    }
+    
+})

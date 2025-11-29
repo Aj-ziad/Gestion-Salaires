@@ -1,0 +1,55 @@
+body{
+    text-align: center;
+   
+   margin: 100px; 
+    
+}
+
+form{
+      
+     padding: 10px;
+     border: 1px solid white;
+     width:100%;
+     background: rgb(236, 230, 218);
+     display: grid;          
+     grid-template-columns: auto auto; 
+     gap: 15px; 
+
+}
+
+input,select{
+  
+    padding:10px;
+   
+    margin-top: 5px;
+    margin-bottom: 5px;
+    /* grid-template-columns: auto auto ;  */
+}
+.submit{
+width: 100%;
+color: white;
+background: rgb(71, 163, 71);
+grid-column: span 2;
+}
+table{
+    border: 1px solid white;
+    border-collapse: collapse;
+    width: 100%;
+    
+    
+
+}
+tr{
+    text-align: center;
+    color: white;
+     background: black; 
+    padding: 10px;
+    
+}
+thead th {
+    /* background: black; */
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}
+

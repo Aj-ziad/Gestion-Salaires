@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1> Gestion des employes</h1>
+    
+    <form action="" id="form">
+        <input type="text" id="fname" placeholder="Entrer votre nom" required>
+        <input type="text" id="fprenom" placeholder="Entrer votre prenom" required>
+        <input type="number" id="fyear" placeholder="Annee de naissance" required>
+        <input type="text" id="frue" placeholder="Entre la rue" required>
+        <input type="text" id="fville" placeholder="Entrer votre ville" required>
+        <select id="selecteurR" required>
+            <option >-----</option>
+            <option value="agent">Agent</option>
+            <option value="commercial">Commercial</option>
+            <option value="cadre">Cadre</option>
+        </select>
+        <div id ="infos"></div>
+
+        <input type="submit"  class ="submit" value="Ajouter l'employe">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Nom Complet</th>
+                <th>Age</th>
+                <th> Adresse</th>
+                <th>Salaire</th>
+            </tr>
+            <tbody id="tabData"></tbody>
+        </thead>
+    </table>
+    <script src="script.js"></script>
+</body>
+</html>
