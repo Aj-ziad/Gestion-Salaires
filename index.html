@@ -7,38 +7,40 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1> Gestion des employes</h1>
+    
     
     <form action="" id="form">
+        <h1> Gestion des Employes</h1>
+       
         <input type="text" id="fname" placeholder="Entrer votre nom" required>
         <input type="text" id="fprenom" placeholder="Entrer votre prenom" required>
         <input type="number" id="fyear" placeholder="Annee de naissance" required>
         <input type="text" id="frue" placeholder="Entre la rue" required>
         <input type="text" id="fville" placeholder="Entrer votre ville" required>
         <select id="selecteurR" required>
-            <option >-----</option>
+            <option >Choisir Type</option>
             <option value="agent">Agent</option>
             <option value="commercial">Commercial</option>
             <option value="cadre">Cadre</option>
         </select>
-        
-
         <div id ="infos"></div>
 
-        <input type="submit"  class="submit" id="submit" value="Ajouter l'employe">
-    </form>
-    <table>
+        <input type="submit"  class ="submit" value="Ajouter l'employe">
+          <div id="tableContainer">
+      <table id="tableResults">
         <thead>
-            <tr>
-                <th>Type</th>
-                <th>Nom Complet</th>
-                <th>Age</th>
-                <th> Adresse</th>
-                <th>Salaire</th>
-            </tr>
-        <tbody id="tabData"></tbody>
+          <tr>
+            <th>Type</th>
+            <th>Nom Complet</th>
+            <th>Âge</th>
+            <th>Adresse</th>
+            <th class="right">Salaire Calculé</th>
+          </tr>
         </thead>
-    </table>
+        <tbody id="tabData"></tbody>
+      </table>
+    </div>
+    </form>
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,159 +1,199 @@
-class Personne {
-    #id 
-    #nom 
-    #prenom 
-    #anneNaissance 
-    #rue 
-    #ville 
-    #nbPersonnes
-constructor(nom,prenom,anneNaissance,rue,ville){
+class Personne { 
+    #nom;
+    #prenom; 
+    #anneeNaissance; 
+    #rue; 
+    #ville; 
+    #nbPersonnes;
+constructor(nom,prenom,anneeNaissance,rue,ville){
 
     this.#nom = nom
       this.#prenom = prenom
-        this.#anneNaissance = anneNaissance
+        this.#anneeNaissance = anneeNaissance
         this.#rue= rue
         this.#ville= ville
 }
 calculAge(){
-    return 2025 - this.#anneNaissance;
+    const currentYear=new Date().getFullYear();
+     let age =currentYear-this.#anneeNaissance
+     return age;
 
 }
+// calculAge(){
+//     return age=new Date().getFullYear()-this.#anneNaissance
 
- #calculerSalaire(){
-   console.log("error")
+// }
+
+ calculerSalaire(){
+    throw new Error("calculerSalaire() doit être implémentée dans la sous-classe");
 
  }
- toString(){
-    return `${this.#nom} ${this.#prenom}`;
- }
-
-}
-class Agent extends Personne{
-    #heuresTravaillees
-    #tauxHoraraire
-
-
-    constructor(nom, prenom, anneNaissance, rue, ville, heuresTravaillees, tauxHoraraire) {
-    super(nom,prenom,anneNaissance,rue,ville)
-    this.#heuresTravaillees=heuresTravaillees
-    this.#tauxHoraraire=tauxHoraraire
-    
-
+   getAdresse() {
+      return `${this.#rue}, ${this.#ville}`;
     }
-    calculerSalaire(){
-   let salaire= this.#heuresTravaillees*this.#tauxHoraraire
-   return salaire
-    }
- 
-    
-}
-class Commercial extends Personne{
-    #salaireFixe
-    #chiffreAfaire
-    #commission
-    constructor(nom, prenom, anneNaissance, rue, ville, salaireFixe, chiffreAfaire, commission) {
-         super(nom,prenom,anneNaissance,rue,ville)
-         this.#chiffreAfaire=chiffreAfaire
-         this.#commission=commission
-         this.#salaireFixe=salaireFixe
-        
-    }
-    calculerSalaire(){
-     let salaire=this.#salaireFixe+(this.#chiffreAfaire*this.#commission)
-     return salaire
+    toString(){
+        return ` ${this.#nom} ${this.#prenom}`;
     }
 
 }
-class Cadre extends Personne{
-    #salaireFixe
-    #bonus
-    constructor(nom, prenom, anneNaissance, rue, ville, salaireFixe, bonus) {
-        super(nom,prenom,anneNaissance,rue,ville)
-        this.#bonus=bonus
-        this.#salaireFixe=salaireFixe
+class Agent extends Personne {
+    #heuresTravaillees;
+    #tauxHoraire;
+
+    constructor(nom, prenom, anneeNaissance, rue, ville, heuresTravaillees = 0, tauxHoraire = 0) {
+        super(nom, prenom, anneeNaissance, rue, ville);
+        this.#heuresTravaillees = heuresTravaillees;
+        this.#tauxHoraire = tauxHoraire;
     }
-    calculerSalaire(){
-        let salaire =this.#salaireFixe*this.#bonus
-        return salaire
+
+    calculerSalaire() {
+        return this.#heuresTravaillees * this.#tauxHoraire;
     }
 }
+
+class Commercial extends Personne {
+    #salaireFixe;
+    #chiffreAffaire;
+    #commission;
+
+    constructor(nom, prenom, anneeNaissance, rue, ville, salaireFixe = 0, chiffreAffaire = 0, commission = 0) {
+        super(nom, prenom, anneeNaissance, rue, ville);
+        this.#salaireFixe = salaireFixe;
+        this.#chiffreAffaire = chiffreAffaire;
+        this.#commission = commission;
+    }
+
+    calculerSalaire() {
+        return this.#salaireFixe + (this.#chiffreAffaire * this.#commission);
+    }
+}
+
+class Cadre extends Personne {
+    #salaireFixe;
+    #bonus;
+
+    constructor(nom, prenom, anneeNaissance, rue, ville, salaireFixe = 0, bonus = 0) {
+        super(nom, prenom, anneeNaissance, rue, ville);
+        this.#salaireFixe = salaireFixe;
+        this.#bonus = bonus;
+    }
+
+    calculerSalaire() {
+        return this.#salaireFixe + this.#bonus;
+    }
+}
+
+
 
 // --------------
-const typeEmployer = document.getElementById("selecteurR")
-const  infos = document.getElementById("infos")
+const typeEmployer = document.getElementById("selecteurR");
+const  infos = document.getElementById("infos");
+const form = document.getElementById("form");
+const tabData = document.getElementById("tabData");
+const tableResults = document.getElementById("tableResults");
+const listeEmployes = [];
 typeEmployer.addEventListener("change", ()=>{
     const type = typeEmployer.value
-    // tabData.innerHTML=""
+    infos.innerHTML="";
 
     if (type ==="agent"){
         infos.innerHTML = `
-        <input type="number" id="heures" placeholder="Heures travaillées" required>
-        <input type="number" id="taux" placeholder="Taux horaire" required>`
+            <input type="number" id="heures" placeholder="Heures travaillées" required>
+            <input type="number" id="taux" placeholder="Taux horaire">`
          }else if (type === "commercial") {
          infos.innerHTML = `
-            <input type="number" id="fixe" placeholder="Salaire fixe" required>
-            <input type="number" id="ca" placeholder="Chiffre d'affaire" required>
-            <input type="number" id="commission" step="0.01" placeholder="Commission" required>
-        `
+            <input type="number" id="fixe" placeholder="Salaire fixe">
+            <input type="number" id="chiffreAffaire" placeholder="Chiffre d'affaire">
+            <input type="number" id="commission" step="0.01" placeholder="Commission"> `
     } else if (type === "cadre") {
         infos.innerHTML = `
-            <input type="number" id="fixe" placeholder="Salaire fixe" required>
-            <input type="number" id="bonus" placeholder="Bonus" required>
-        `
+            <input type="number" id="fixe" placeholder="Salaire fixe">
+            <input type="number" id="bonus" placeholder="Bonus"> `
     } else {
         infos.innerHTML=``
     }
     
 })
+   function afficherTableau() {
 
-const btn = document.getElementById("submit")
-btn.addEventListener("click",(e)=>{
-    e.preventDefault();
-    const nom = document.getElementById("fname").value
-    const prenom = document.getElementById("fprenom").value
-    const annee = parseInt(document.getElementById("fyear").value)
-    const age = 2025 - annee
-    const rue = document.getElementById("frue").value
-    const ville = document.getElementById("fville").value
-    const type = typeEmployer.value
-    // const fullName = name + " " + first
-    const adresse = rue + " " + ville
- let personne; 
+  tabData.innerHTML = "";
 
-    if (type === "agent") {
-        const heures = parseFloat(document.getElementById("heures").value);
-        const taux = parseFloat(document.getElementById("taux").value);
+  listeEmployes.forEach(emp => {
+    const tr = document.createElement("tr");
 
-        personne = new Agent(nom, prenom, annee, rue, ville, heures, taux);
+    const tdType = document.createElement("td");
+    tdType.textContent = emp.constructor.name; 
+    tr.appendChild(tdType);
 
-    } else if (type === "commercial") {
-        const fixe = parseFloat(document.getElementById("fixe").value);
-        const ca = parseFloat(document.getElementById("ca").value);
-        const commission = parseFloat(document.getElementById("commission").value);
+    const tdNom = document.createElement("td");
+    tdNom.textContent = emp.toString();
+    tr.appendChild(tdNom);
 
-        personne = new Commercial(nom, prenom, annee, rue, ville, fixe, ca, commission);
+    const tdAge = document.createElement("td");
+    tdAge.textContent = emp.calculAge() + " ans";
+    tr.appendChild(tdAge);
 
-    } else if (type === "cadre") {
-        const fixe = parseFloat(document.getElementById("fixe").value);
-        const bonus = parseFloat(document.getElementById("bonus").value);
+    const tdAdresse = document.createElement("td");
+    tdAdresse.textContent = emp.getAdresse();
+    tr.appendChild(tdAdresse);
 
-        personne = new Cadre(nom, prenom, annee, rue, ville, fixe, bonus);
-    }
+    const tdSalaire = document.createElement("td");
+    tdSalaire.textContent = emp.calculerSalaire().toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + " €";
+    tr.appendChild(tdSalaire);
 
-   
+    tabData.appendChild(tr);
+  });
+
+
+  if (listeEmployes.length > 0) {
+    tableResults.style.display = "table";
+  } else {
+    tableResults.style.display = "none";
+  }
+}
+
+    
+
+
+
+
+form.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+
+  const nom = document.getElementById('fname').value.trim();
+  const prenom = document.getElementById('fprenom').value.trim();
+  const annee = Number(document.getElementById('fyear').value);
+  const rue = document.getElementById('frue').value.trim();
+  const ville = document.getElementById('fville').value.trim();
+  const type = typeEmployer.value;
+
+
+
  
-    console.log("Full Name:", personne.toString());
-    console.log("Age:", personne.calculAge());
-    console.log("Salaire:", personne.calculerSalaire());
+  let nouvelEmploye = null;
+  if (type === "agent") {
+    const heures = Number(document.getElementById('heures')?.value ?? 0);
+    const taux = Number(document.getElementById('taux')?.value ?? 0);
+    nouvelEmploye = new Agent(nom, prenom, annee, rue, ville, heures, taux);
+  } else if (type === "commercial") {
+    const fixe = Number(document.getElementById('fixe')?.value ?? 0);
+    const chiffre = Number(document.getElementById('chiffreAffaire')?.value ?? 0);
+    const commission = Number(document.getElementById('commission')?.value ?? 0);
+    nouvelEmploye = new Commercial(nom, prenom, annee, rue, ville, fixe, chiffre, commission);
+  } else if (type === "cadre") {
+    const fixe = Number(document.getElementById('fixe')?.value ?? 0);
+    const bonus = Number(document.getElementById('bonus')?.value ?? 0);
+    nouvelEmploye = new Cadre(nom, prenom, annee, rue, ville, fixe, bonus);
+  } else {
+    alert("Type non pris en charge.");
+    return;
+  }
+
+  listeEmployes.push(nouvelEmploye);
+  afficherTableau();
 
 
-    const ttab = document.getElementById("tabData")
-    ttab.innerHTML+=`
-    <tr>
-    <td>${type}</td>
-    <td>${personne.toString()}</td>
-    <td>${personne.calculAge()}</td>
-    <td>${adresse}</td>
-    <td>${personne.calculerSalaire()}</td>
-    </tr>`
-})
+  form.reset();
+  infos.innerHTML = "";
+  typeEmployer.value = "";
+});
