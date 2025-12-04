@@ -7,8 +7,8 @@ class Personne {
     #nbPersonnes;
 constructor(nom,prenom,anneeNaissance,rue,ville){
 
-    this.#nom = nom
-      this.#prenom = prenom
+        this.#nom = nom
+        this.#prenom = prenom
         this.#anneeNaissance = anneeNaissance
         this.#rue= rue
         this.#ville= ville
@@ -23,10 +23,8 @@ calculAge(){
 //     return age=new Date().getFullYear()-this.#anneNaissance
 
 // }
-
  calculerSalaire(){
     throw new Error("calculerSalaire() doit être implémentée dans la sous-classe");
-
  }
    getAdresse() {
       return `${this.#rue}, ${this.#ville}`;
@@ -34,7 +32,6 @@ calculAge(){
     toString(){
         return ` ${this.#nom} ${this.#prenom}`;
     }
-
 }
 class Agent extends Personne {
     #heuresTravaillees;
